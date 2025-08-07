@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue 2 Option API 勉強</title>
+    <style>
+        body {
+            font-family: 'Arial', 'Hiragino Kaku Gothic Pro', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        }
+        .sample-section {
+            border: 2px solid #42b883;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            background-color: #f9fffe;
+        }
+        h1 {
+            color: #42b883;
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #35495e;
+            border-bottom: 2px solid #42b883;
+            padding-bottom: 10px;
+        }
+        button {
+            background-color: #42b883;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #369870;
+        }
+        button.danger {
+            background-color: #e74c3c;
+        }
+        button.danger:hover {
+            background-color: #c0392b;
+        }
+        input {
+            padding: 10px;
+            margin: 5px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        input:focus {
+            border-color: #42b883;
+            outline: none;
+        }
+        .stats {
+            background-color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .todo-item {
+            background-color: white;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .fade-enter-active, .fade-leave-active {
+            transition: opacity 0.5s;
+        }
+        .fade-enter, .fade-leave-to {
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 Vue 2 Option API 勉強用サンプル</h1>
+        
+        <!-- メインのVueアプリケーション -->
+        <div id="app">
+            <!-- 1. 基本的なデータバインディング -->
+            <div class="sample-section">
+                <h2>📊 基本的なデータバインディング</h2>
+                <p><strong>メッセージ:</strong> {{ message }}</p>
+                <p><strong>カウンター:</strong> {{ counter }}</p>
+                <button @click="increment">➕ カウンターを増やす</button>
+                <button @click="decrement">➖ カウンターを減らす</button>
+                <button @click="reset">🔄 リセット</button>
+            </div>
+
+            <!-- 2. 双方向データバインディング -->
+            <div class="sample-section">
+                <h2>↔️ 双方向データバインディング</h2>
+                <input v-model="inputText" placeholder="テキストを入力してください" style="width: 300px;">
+                <p><strong>入力されたテキスト:</strong> "{{ inputText }}"</p>
+                <p><strong>文字数:</strong> {{ inputText.length }}文字</p>
+            </div>
+
+            <!-- 3. 条件付きレンダリング -->
+            <div class="sample-section">
+                <h2>🔀 条件付きレンダリング</h2>
+                <button @click="toggleVisibility">👁️ 表示を切り替え</button>
+                <transition name="fade">
+                    <p v-if="isVisible" key="visible">✅ この文章は条件によって表示されます</p>
+                    <p v-else key="hidden">❌ 今は非表示状態です</p>
+                </transition>
+            </div>
+
+            <!-- 4. リストレンダリング -->
+            <div class="sample-section">
+                <h2>📝 TODOリスト（リストレンダリング）</h2>
+                <div>
+                    <input v-model="newTodo" @keyup.enter="addTodo" placeholder="TODOを追加" style="width: 250px;">
+                    <button @click="addTodo">➕ 追加</button>
+                </div>
+                <div v-if="todos.length === 0" style="text-align: center; color: #7f8c8d; margin: 20px 0;">
+                    📋 TODOがありません
+                </div>
+                <div v-else>
+                    <div class="todo-item" v-for="(todo, index) in todos" :key="index">
+                        <span>{{ index + 1 }}. {{ todo }}</span>
+                        <button class="danger" @click="removeTodo(index)">🗑️ 削除</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. 算出プロパティ -->
+            <div class="sample-section">
+                <h2>🧮 算出プロパティ (Computed)</h2>
+                <div class="stats">
+                    <p><strong>📊 統計情報:</strong></p>
+                    <ul>
+                        <li>TODOの総数: {{ todoCount }}件</li>
+                        <li>メッセージの文字数: {{ messageLength }}文字</li>
+                        <li>入力テキストの文字数: {{ inputLength }}文字</li>
+                        <li>カウンターの状態: {{ counterStatus }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 6. ウォッチャー -->
+            <div class="sample-section">
+                <h2>👀 ウォッチャー (Watch)</h2>
+                <p>カウンターとTODOの変更を監視中...</p>
+                <div class="stats">
+                    <p><strong>📈 変更履歴:</strong></p>
+                    <p>カウンター変更履歴: {{ counterHistory.slice(-5).join(' → ') }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vue 2をCDNから読み込み -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
+    <script>
+        // Vue 2 Option API のメインアプリケーション
+        new Vue({
+            // マウント対象の要素
+            el: '#app',
+            
+            // データオプション - リアクティブなデータを定義
+            data: {
+                message: 'Vue 2 Option APIの勉強へようこそ！ 🎉',
+                counter: 0,
+                inputText: '',
+                isVisible: true,
+                todos: ['Vue 2の基本を学ぶ', 'Option APIを理解する', 'サンプルアプリを作る'],
+                newTodo: '',
+                counterHistory: [0]
+            },
+            
+            // 算出プロパティ - 他のデータに基づいて計算される値
+            computed: {
+                // TODOの総数を返す
+                todoCount() {
+                    return this.todos.length;
+                },
+                
+                // メッセージの文字数を返す
+                messageLength() {
+                    return this.message.length;
+                },
+                
+                // 入力テキストの文字数を返す
+                inputLength() {
+                    return this.inputText.length;
+                },
+                
+                // カウンターの状態を文字列で返す
+                counterStatus() {
+                    if (this.counter > 0) return '正の数 ➕';
+                    if (this.counter < 0) return '負の数 ➖';
+                    return 'ゼロ 0️⃣';
+                }
+            },
+            
+            // メソッド - イベントハンドラーや関数を定義
+            methods: {
+                // カウンターを増加
+                increment() {
+                    this.counter++;
+                },
+                
+                // カウンターを減少
+                decrement() {
+                    this.counter--;
+                },
+                
+                // カウンターをリセット
+                reset() {
+                    this.counter = 0;
+                },
+                
+                // 表示状態を切り替え
+                toggleVisibility() {
+                    this.isVisible = !this.isVisible;
+                },
+                
+                // 新しいTODOを追加
+                addTodo() {
+                    if (this.newTodo.trim()) {
+                        this.todos.push(this.newTodo.trim());
+                        this.newTodo = '';
+                    }
+                },
+                
+                // TODOを削除
+                removeTodo(index) {
+                    this.todos.splice(index, 1);
+                }
+            },
+            
+            // ウォッチャー - データの変更を監視
+            watch: {
+                // カウンターの変更を監視
+                counter(newValue, oldValue) {
+                    console.log(`🔄 カウンターが ${oldValue} から ${newValue} に変更されました`);
+                    this.counterHistory.push(newValue);
+                    
+                    // 履歴が10件を超えたら古いものを削除
+                    if (this.counterHistory.length > 10) {
+                        this.counterHistory.shift();
+                    }
+                },
+                
+                // TODOリストの変更を監視
+                todos: {
+                    handler(newTodos) {
+                        console.log('📝 TODOリストが更新されました:', newTodos);
+                    },
+                    deep: true // オブジェクトの深い変更も監視
+                },
+                
+                // 入力テキストの変更を監視
+                inputText(newValue) {
+                    console.log(`💬 入力テキストが変更されました: "${newValue}"`);
+                }
+            },
+            
+            // ライフサイクルフック
+            created() {
+                console.log('🎬 Vueインスタンスが作成されました (created)');
+            },
+            
+            mounted() {
+                console.log('🏠 DOMにマウントされました (mounted)');
+                console.log('🔍 開発者コンソールを開いてログを確認してください');
+                console.log('📚 学習内容: データバインディング、算出プロパティ、ウォッチャー、ライフサイクル');
+            },
+            
+            updated() {
+                console.log('🔄 コンポーネントが更新されました (updated)');
+            }
+        });
+    </script>
+</body>
+</html>

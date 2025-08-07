@@ -1,30 +1,19 @@
 {
-  "name": "vue2-Accumulation",
+  "name": "vue2-option-api-study",
   "version": "1.0.0",
   "description": "Vue.js 2系 Option API 勉強用プロジェクト",
-  "main": "src/main.js",
+  "main": "index.html",
   "scripts": {
-    "dev": "http-server . -p 8080 -o",
-    "serve": "http-server . -p 8080",
-    "build": "webpack --mode production",
-    "build:dev": "webpack --mode development"
+    "dev": "http-server . -p 3000 -o",
+    "serve": "http-server . -p 3000"
   },
   "dependencies": {
-    "vue": "^2.7.16",
-    "vue-router": "^3.6.5",
-    "vuex": "^3.6.2"
+    "vue": "^2.7.16"
   },
   "devDependencies": {
-    "http-server": "^14.1.1",
-    "webpack": "^5.88.2",
-    "webpack-cli": "^5.1.4",
-    "vue-loader": "^15.10.0",
-    "vue-template-compiler": "^2.7.16",
-    "css-loader": "^6.8.1",
-    "style-loader": "^3.3.3",
-    "html-webpack-plugin": "^5.5.3"
+    "http-server": "^14.1.1"
   },
-  "keywords": ["vue", "vue2", "option-api", "study", "router", "vuex"],
+  "keywords": ["vue", "vue2", "option-api", "study"],
   "author": "",
   "license": "MIT"
 }
