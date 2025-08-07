@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue 2 Option API 勉強</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .sample-component {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        h1, h2 {
+            color: #42b883;
+        }
+        button {
+            background-color: #42b883;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #369870;
+        }
+        input {
+            padding: 8px;
+            margin: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Vue 2 Option API 勉強用サンプル</h1>
+        
+        <!-- メインのVueアプリケーション -->
+        <div id="app">
+            <h2>基本的なデータバインディング</h2>
+            <div class="sample-component">
+                <p>メッセージ: {{ message }}</p>
+                <p>カウンター: {{ counter }}</p>
+                <button @click="increment">カウンターを増やす</button>
+                <button @click="decrement">カウンターを減らす</button>
+            </div>
+
+            <h2>双方向データバインディング</h2>
+            <div class="sample-component">
+                <input v-model="inputText" placeholder="テキストを入力してください">
+                <p>入力されたテキスト: {{ inputText }}</p>
+            </div>
+
+            <h2>条件付きレンダリング</h2>
+            <div class="sample-component">
+                <button @click="toggleVisibility">表示を切り替え</button>
+                <p v-if="isVisible">この文章は条件によって表示されます</p>
+                <p v-else>今は非表示状態です</p>
+            </div>
+
+            <h2>リストレンダリング</h2>
+            <div class="sample-component">
+                <input v-model="newTodo" @keyup.enter="addTodo" placeholder="TODOを追加">
+                <button @click="addTodo">追加</button>
+                <ul>
+                    <li v-for="(todo, index) in todos" :key="index">
+                        {{ todo }}
+                        <button @click="removeTodo(index)">削除</button>
+                    </li>
+                </ul>
+            </div>
+
+            <h2>算出プロパティ</h2>
+            <div class="sample-component">
+                <p>TODOの総数: {{ todoCount }}</p>
+                <p>メッセージの文字数: {{ messageLength }}</p>
+            </div>
+
+            <h2>ウォッチャー</h2>
+            <div class="sample-component">
+                <p>カウンターの変更を監視中...</p>
+                <p>変更履歴: {{ counterHistory.join(', ') }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vue 2をCDNから読み込み -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

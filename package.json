@@ -1,0 +1,19 @@
+{
+  "name": "vue2-option-api-study",
+  "version": "1.0.0",
+  "description": "Vue.js 2系 Option API 勉強用プロジェクト",
+  "main": "index.js",
+  "scripts": {
+    "dev": "http-server . -p 8080 -o",
+    "serve": "http-server . -p 8080"
+  },
+  "dependencies": {
+    "vue": "^2.7.16"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  },
+  "keywords": ["vue", "vue2", "option-api", "study"],
+  "author": "",
+  "license": "MIT"
+}
